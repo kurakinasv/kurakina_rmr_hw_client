@@ -9,9 +9,11 @@ export const validateHandler = ({ email, password, phone }: UserRequestType) => 
   }
 
   if (!password) errors.password = 'Password is required';
-  // else if (!(/[A-Z]+/i.test(password) && /([A-Z]*[0-9][A-Z]*){4,}/i.test(password))) {
-  //   errors.password = 'Password must include only letters and at least 4 digits';
-  // }
+  else if (!/^[A-Z0-9]+$/i.test(password)) {
+    errors.password = 'Password must contain only letters and numbers';
+  } else if (!/^[A-Z0-9]{4,}$/i.test(password)) {
+    errors.password = 'Password length must be at least 4';
+  }
 
   if (!phone) errors.phone = 'Phone number is required';
   else if (!/^\+(7|976)[0-9]{10}$/.test(phone)) {

@@ -18,11 +18,16 @@ class AuthStore {
     makeAutoObservable(this);
   }
 
-  initUser = (): void => {
+  isLogged = () => {
     const storageData = localStorage.getItem(this.storageName);
     const data = JSON.parse(String(storageData));
 
-    if (data && data.isLogged) this._redirectToKitty();
+    if (data && data.isLogged) return true;
+    else return false;
+  };
+
+  initUser = (): void => {
+    if (this.isLogged()) this._redirectToKitty();
   };
 
   login = async ({ email, password, phone }: UserRequestType): Promise<void> => {
