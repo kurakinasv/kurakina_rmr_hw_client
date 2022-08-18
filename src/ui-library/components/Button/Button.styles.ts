@@ -3,7 +3,6 @@ import colors from '../../colors';
 
 export const StyledButton = styled.button<{ fillBackground: boolean }>`
   padding: 16px 26px;
-  font-size: 22px;
   border-radius: 4px;
 
   ${({ fillBackground }) =>
@@ -32,6 +31,6 @@ export const StyledButton = styled.button<{ fillBackground: boolean }>`
   }
 
   :disabled {
-    ${({ fillBackground }) => fillBackground && `background-color: #dddddd;`}
+    ${({ fillBackground }) => fillBackground && `background-color: ${colors.grey};`}
   }
 `;

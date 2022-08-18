@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { useAuthStoreContext } from '../../../features/auth/auth.store';
-import { KittyImg, KittyWrapper, Title } from './KittyScreen.styles';
+import Title from '../../../ui-library/components/Title';
+import { KittyImg, KittyWrapper } from './KittyScreen.styles';
 
 const KittyScreen: FC = () => {
   const { kittySrc } = useAuthStoreContext();

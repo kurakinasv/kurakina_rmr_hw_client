@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { Form, Field } from 'formik';
+import { flex } from '../../../../ui-library/mixins';
+import colors from '../../../../ui-library/colors';
 
 export const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${flex('center', 'center', 'column')}
 `;
 
 export const FieldWrapper = styled.div`
@@ -18,14 +17,13 @@ export const StyledField = styled(Field)`
 
   padding: 20px 16px;
 
-  font-size: 22px;
   border-radius: 4px;
-  border: 2px solid #dddddd;
+  border: 2px solid ${colors.grey};
 `;
 
 export const TextError = styled.div`
   margin-top: 5px;
 
-  color: #fc6471;
   font-size: 14px;
+  color: ${colors.pink};
 `;

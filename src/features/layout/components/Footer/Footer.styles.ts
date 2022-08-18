@@ -1,32 +1,30 @@
 import styled from 'styled-components';
+import colors from '../../../../ui-library/colors';
+import { containerLayout, flex, size } from '../../../../ui-library/mixins';
 
 export const StyledFooter = styled.footer`
-  width: 100%;
-  height: 90px;
+  ${size('100%', '90px')}
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${flex('center', 'center', 'column')}
 
-  background-color: #dddddd;
+  background-color: ${colors.grey};
 `;
 
 export const FooterContainer = styled.div`
-  width: 80vw;
-  margin: 0 auto;
+  ${containerLayout()}
 
   div {
     text-align: center;
     font-size: 14px;
-    color: #525252;
+    color: ${colors.darkGrey};
   }
 `;
 
 export const StyledLink = styled.a`
-  color: #7d5ba6;
+  color: ${colors.purple};
 
   :hover {
-    border-bottom: 1px solid #7d5ba6;
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 `;

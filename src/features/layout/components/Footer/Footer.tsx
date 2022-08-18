@@ -1,12 +1,13 @@
-import { FooterContainer, StyledFooter, StyledLink } from './Footer.styles';
+import Link from '../../../../ui-library/components/Link';
+import { FooterContainer, StyledFooter } from './Footer.styles';
 
 const Footer = () => {
   return (
     <StyledFooter>
       <FooterContainer>
-        <div>
-          GitHub: <StyledLink href="https://github.com/kurakinasv">kurakinasv</StyledLink>
-        </div>
+        <Link url="https://github.com/kurakinasv" label="Github: ">
+          kurakinasv
+        </Link>
       </FooterContainer>
     </StyledFooter>
   );

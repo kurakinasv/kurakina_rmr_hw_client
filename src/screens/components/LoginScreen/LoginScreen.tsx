@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import LoginForm from '../../../features/auth/components/LoginForm';
-import { LoginWrapper, Title } from './LoginScreen.styles';
+import Title from '../../../ui-library/components/Title';
+import { LoginWrapper } from './LoginScreen.styles';
 
-const LoginPage: FC = () => {
+const LoginScreen: FC = () => {
   return (
     <LoginWrapper>
       <Title>Login</Title>
@@ -11,4 +12,4 @@ const LoginPage: FC = () => {
   );
 };
 
-export default LoginPage;
+export default LoginScreen;
