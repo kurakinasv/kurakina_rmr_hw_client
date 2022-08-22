@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 import colors from '../../../ui-library/colors';
-import { flex } from '../../../ui-library/mixins';
+import { flex, minSize } from '../../../ui-library/mixins';
+import { media } from '../../../ui-library/vars';
 
 export const KittyWrapper = styled.div`
   ${flex('center', null, 'column')}
 `;
 
 export const KittyImg = styled.img`
-  min-width: 300px;
-  min-height: 300px;
-  max-width: 25vw;
+  ${minSize('320px')}
+  max-width: 28vw;
 
   padding: 5px;
   border: 2px dashed ${colors.lightPurple};
+
+  @media (max-width: ${media.mobile}) {
+    ${minSize('250px')}
+  }
 `;

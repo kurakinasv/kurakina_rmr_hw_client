@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import colors from '../../colors';
+import { media } from '../../vars';
 
 export const StyledButton = styled.button<{ fillBackground: boolean }>`
   padding: 16px 26px;
@@ -31,6 +32,13 @@ export const StyledButton = styled.button<{ fillBackground: boolean }>`
   }
 
   :disabled {
-    ${({ fillBackground }) => fillBackground && `background-color: ${colors.grey};`}
+    color: ${colors.white};
+    background-color: ${colors.grey};
+    ${({ fillBackground }) => !fillBackground && `border: 2px solid ${colors.grey};`}
+    cursor: default;
+  }
+
+  @media (max-width: ${media.smallTablet}) {
+    padding: 14px 20px;
   }
 `;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import colors from '../../../../ui-library/colors';
 import { containerLayout, flex, size } from '../../../../ui-library/mixins';
+import { media } from '../../../../ui-library/vars';
 
 export const StyledHeader = styled.header`
   ${size('100%', '90px')}
@@ -14,12 +15,20 @@ export const StyledHeader = styled.header`
   border-bottom: 2px dashed ${colors.lightPurple};
   background-color: rgb(255, 255, 255, 0.8);
   backdrop-filter: blur(6px);
+
+  @media (max-width: ${media.smallTablet}) {
+    ${size('100%', '80px')}
+  }
 `;
 
 export const HeaderContainer = styled.div`
   ${containerLayout()}
 
   ${flex('center', 'space-between')}
+
+  @media (max-width: ${media.mobile}) {
+    ${containerLayout('90vw')}
+  }
 `;
 
 export const Logo = styled.div`
@@ -36,26 +45,31 @@ export const Logo = styled.div`
     font-weight: 700;
     user-select: none;
   }
-`;
 
-export const StyledLink = styled.div`
-  padding: 16px 26px;
+  @media (max-width: ${media.smallTablet}) {
+    img {
+      height: 60px;
+    }
 
-  a {
-    color: ${colors.purple};
-    font-weight: 700;
-  }
-
-  :hover {
-    text-decoration: underline;
-    text-underline-offset: 6px;
-    cursor: pointer;
+    span {
+      display: none;
+    }
   }
 `;
 
 export const User = styled.div`
   ${flex('center')}
   color: ${colors.purple};
+
+  @media (max-width: ${media.mobile}) {
+    max-width: 32vw;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
 `;
 
 export const UserPic = styled.div`
@@ -73,5 +87,9 @@ export const UserPic = styled.div`
 
     font-size: 30px;
     line-height: 1;
+  }
+
+  @media (max-width: ${media.tablet}) {
+    display: none;
   }
 `;

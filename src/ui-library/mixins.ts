@@ -6,6 +6,11 @@ export const size = (w: string, h?: string) => css`
   height: ${h || w};
 `;
 
+export const minSize = (w: string, h?: string) => css`
+  min-width: ${w};
+  min-height: ${h || w};
+`;
+
 export const flex = (
   align: AlignType = 'normal',
   justify: JustifyType = 'normal',
