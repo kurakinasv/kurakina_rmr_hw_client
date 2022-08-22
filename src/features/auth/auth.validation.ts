@@ -16,7 +16,7 @@ export const validateHandler = ({ email, password, phone }: UserRequestType) => 
   }
 
   if (!phone) errors.phone = 'Phone number is required';
-  else if (!/^\+(7|976)[0-9]{10}$/.test(phone)) {
+  else if (!(/^\+79[0-9]{2}[0-9]{7}$/.test(phone) || /^\+976[0-9]{10}$/.test(phone))) {
     errors.phone = 'Russian (+7) or Mongolian (+976) phone numbers are valid';
   }
 
