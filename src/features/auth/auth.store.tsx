@@ -10,6 +10,7 @@ class AuthStore {
   readonly storageName = 'isLogged';
 
   isAuthenticated = false;
+  isLoading = false;
   user = {} as User;
   userRequestData = {} as UserRequestType;
   kittySrc: KittyResponseType['src'] = '';
@@ -34,41 +35,50 @@ class AuthStore {
     try {
       this.userRequestData = { email, password, phone };
 
-      await requestService.post({ body: this.userRequestData, relativeURL: EndpointsEnum.login });
+      const response = await requestService.post({ body: this.userRequestData, relativeURL: EndpointsEnum.login });
 
-      localStorage.setItem(this.storageName, JSON.stringify({ isLogged: true }));
-      this._redirectToKitty();
-    } catch (e: any) {
-      throw new Error(`Login error: ${e.message}`);
+      if (response) {
+        localStorage.setItem(this.storageName, JSON.stringify({ isLogged: true }));
+        this._redirectToKitty();
+      } else throw new Error(response);
+    } catch (e: unknown) {
+      if (e instanceof Error) throw new Error(e.message);
     }
   };
 
   logout = async (): Promise<void> => {
-    try {
-      await requestService.post({ relativeURL: EndpointsEnum.logout });
+    this.setIsLoading(true);
 
-      localStorage.removeItem(this.storageName);
-      this.setIsAuthenticated(false);
-    } catch (e: any) {
-      throw new Error(`Login error: ${e.message}`);
+    try {
+      const response = await requestService.post({ relativeURL: EndpointsEnum.logout });
+
+      if (response) {
+        localStorage.removeItem(this.storageName);
+        this.setIsAuthenticated(false);
+        this.setUserName(null);
+      } else throw new Error(response);
+    } catch (e: unknown) {
+      if (e instanceof Error) throw new Error(e.message);
+    } finally {
+      this.setIsLoading(false);
     }
   };
 
   getKitty = async (): Promise<void> => {
     try {
       const data = await requestService.get({ relativeURL: EndpointsEnum.kitty });
-      this.setKittySrc(data);
-    } catch (e: any) {
-      throw new Error(`Kitty request error ${e.message}`);
+      if (data) this.setKittySrc(data);
+    } catch (e: unknown) {
+      if (e instanceof Error) throw new Error(`Kitty request error ${e.message}`);
     }
   };
 
   getUserProfile = async (): Promise<void> => {
     try {
       const data = await requestService.get({ relativeURL: EndpointsEnum.profile });
-      this.setUserName(data);
-    } catch (e: any) {
-      throw new Error(`Profile request error ${e.message}`);
+      if (data) this.setUserName(data);
+    } catch (e: unknown) {
+      if (e instanceof Error) throw new Error(`Profile request error ${e.message}`);
     }
   };
 
@@ -76,18 +86,25 @@ class AuthStore {
     this.isAuthenticated = value;
   };
 
-  setUserName = (data: Response) => {
-    this.user.name = parseServerData(data).name;
+  setIsLoading = (value: boolean) => {
+    this.isLoading = value;
   };
 
-  setKittySrc = (data: Response) => {
-    this.kittySrc = parseServerData(data).src;
+  setUserName = (data: Response | null) => {
+    this.user.name = data ? parseServerData(data).name : '';
   };
 
-  _redirectToKitty = (): void => {
-    this.getKitty()
+  setKittySrc = (data: Response | null) => {
+    this.kittySrc = data ? parseServerData(data).src : '';
+  };
+
+  _redirectToKitty = async (): Promise<void> => {
+    this.setIsLoading(true);
+    this.setIsAuthenticated(true);
+
+    await this.getKitty()
       .then(() => this.getUserProfile())
-      .then(() => this.setIsAuthenticated(true));
+      .then(() => this.setIsLoading(false));
   };
 }
 
