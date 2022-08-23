@@ -5,6 +5,7 @@ import { media } from '../../vars';
 export const StyledButton = styled.button<{ fillBackground: boolean }>`
   padding: 16px 26px;
   border-radius: 4px;
+  user-select: none;
 
   ${({ fillBackground }) =>
     fillBackground

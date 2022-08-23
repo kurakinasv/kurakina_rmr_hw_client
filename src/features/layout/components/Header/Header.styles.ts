@@ -37,6 +37,7 @@ export const Logo = styled.div`
   img {
     height: 70px;
     margin-right: 10px;
+    user-select: none;
   }
 
   span {
@@ -87,6 +88,7 @@ export const UserPic = styled.div`
 
     font-size: 30px;
     line-height: 1;
+    user-select: none;
   }
 
   @media (max-width: ${media.tablet}) {
