@@ -1,73 +1,97 @@
 import styled from 'styled-components';
+import colors from '../../../../ui-library/colors';
+import { containerLayout, flex, size } from '../../../../ui-library/mixins';
+import { media } from '../../../../ui-library/vars';
 
 export const StyledHeader = styled.header`
-  width: 100%;
-  height: 90px;
+  ${size('100%', '90px')}
 
   position: sticky;
   top: 0;
   left: 0;
 
-  display: flex;
-  align-items: center;
+  ${flex('center')}
 
-  border-bottom: 2px dashed #cabddb;
+  border-bottom: 2px dashed ${colors.lightPurple};
   background-color: rgb(255, 255, 255, 0.8);
   backdrop-filter: blur(6px);
+
+  @media (max-width: ${media.smallTablet}) {
+    ${size('100%', '80px')}
+  }
 `;
 
 export const HeaderContainer = styled.div`
-  width: 80vw;
-  margin: 0 auto;
+  ${containerLayout()}
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flex('center', 'space-between')}
+
+  @media (max-width: ${media.mobile}) {
+    ${containerLayout('90vw')}
+  }
 `;
 
 export const Logo = styled.div`
-  display: flex;
-  align-items: center;
-`;
+  ${flex('center')}
 
-export const LogoImg = styled.img`
-  height: 70px;
-  margin-right: 10px;
-`;
+  img {
+    height: 70px;
+    margin-right: 10px;
+    user-select: none;
+  }
 
-export const LogoText = styled.span`
-  color: #7d5ba6;
-  font-size: 30px;
-  font-weight: 700;
+  span {
+    color: ${colors.purple};
+    font-size: 30px;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  @media (max-width: ${media.smallTablet}) {
+    img {
+      height: 60px;
+    }
+
+    span {
+      display: none;
+    }
+  }
 `;
 
 export const User = styled.div`
-  display: flex;
-  align-items: center;
-`;
+  ${flex('center')}
+  color: ${colors.purple};
 
-export const UserName = styled.div`
-  font-size: 22px;
-  font-weight: 500;
-  color: #7d5ba6;
+  @media (max-width: ${media.mobile}) {
+    max-width: 32vw;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
 `;
 
 export const UserPic = styled.div`
-  width: 60px;
-  height: 60px;
+  ${size('60px')}
   margin-right: 10px;
 
   border-radius: 50%;
-  background-color: #cabddb;
+  background-color: ${colors.lightPurple};
 
-  display: flex;
-  align-items: center;
+  ${flex('center')}
   text-align: center;
 
   span {
-    line-height: 1;
     width: 100%;
+
     font-size: 30px;
-    display: inline-block;
+    line-height: 1;
+    user-select: none;
+  }
+
+  @media (max-width: ${media.tablet}) {
+    display: none;
   }
 `;

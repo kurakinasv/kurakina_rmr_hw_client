@@ -9,14 +9,31 @@ export type UserResponseType = {
   name: string;
 } & UserRequestType;
 
-export type KittyResponseType = {
-  src: string;
-};
+type LocalStorageData = { [key: string]: unknown };
 
-export const parseServerData = (data: unknown): { [key: string]: string } => {
-  const obj = {} as { [key: string]: string };
-  const stringifiedData = JSON.stringify(data);
-  JSON.parse(stringifiedData, (name: string, value: string) => (obj[name] = value));
+export class LocalStorage {
+  readonly storageItemName: string;
 
-  return obj;
-};
+  constructor(itemName: string) {
+    this.storageItemName = itemName;
+  }
+
+  checkItem = (): boolean => {
+    const storageData = this.getItem();
+    const data: LocalStorageData = JSON.parse(String(storageData));
+
+    return !!data;
+  };
+
+  getItem = (): string | null => {
+    return localStorage.getItem(this.storageItemName);
+  };
+
+  setItem = (value: unknown): void => {
+    localStorage.setItem(this.storageItemName, JSON.stringify(value));
+  };
+
+  removeItem = (): void => {
+    localStorage.removeItem(this.storageItemName);
+  };
+}

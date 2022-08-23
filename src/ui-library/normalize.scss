@@ -1,9 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    font-weight: 500;
     box-sizing: border-box;
-    user-select: none;
+    font-weight: 500;
 }
 
 html,
@@ -14,7 +13,12 @@ body {
 }
 
 html {
-    font-family: "Montserrat", sans-serif
+    font-family: "Montserrat", sans-serif;
+    font-size: 22px;
+
+    @media (max-width: 426px) {
+        font-size: 18px;
+    }
 }
 
 ul,
@@ -25,15 +29,16 @@ ol {
 input,
 button {
     outline: none;
-    border: 0;
+    border: none;
     padding: 0;
+    font-size: inherit;
 }
 
 button {
     display: block;
-    cursor: pointer;
     text-align: center;
     background-color: transparent;
+    cursor: pointer;
 }
 
 a {

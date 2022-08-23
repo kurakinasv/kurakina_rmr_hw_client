@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import './ui-library/normalize.scss';
 import { useEffect } from 'react';
-import { AuthStoreProvider, useAuthStoreContext } from './features/auth/auth.store';
+import { AuthStoreProvider, useAuthStoreContext } from './features/auth';
 import Layout from './features/layout';
 import Router from './screens/Router';
 
