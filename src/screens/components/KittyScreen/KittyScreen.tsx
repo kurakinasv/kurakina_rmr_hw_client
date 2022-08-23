@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { useAuthStoreContext } from '../../../features/auth/auth.store';
+import { useAuthStoreContext } from '../../../features/auth';
 import Loader from '../../../ui-library/components/Loader';
 import Title from '../../../ui-library/components/Title';
 import { KittyImg, KittyWrapper } from './KittyScreen.styles';

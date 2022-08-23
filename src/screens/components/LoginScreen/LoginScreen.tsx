@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import LoginForm from '../../../features/auth/components/LoginForm';
+import { LoginForm } from '../../../features/auth';
 import Title from '../../../ui-library/components/Title';
 import { LoginWrapper } from './LoginScreen.styles';
 

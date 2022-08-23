@@ -1,5 +1,4 @@
-import { HttpMethod } from '../../features/auth/auth.entity';
-import { GetRequestOptions, PostRequestOptions } from './request.types';
+import { GetRequestOptions, HttpMethod, PostRequestOptions } from './request.types';
 
 export class RequestService {
   private headers = {} as Headers;

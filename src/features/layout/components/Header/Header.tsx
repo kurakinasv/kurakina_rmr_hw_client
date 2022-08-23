@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import Button from '../../../../ui-library/components/Button';
 import Link from '../../../../ui-library/components/Link';
-import { useAuthStoreContext } from '../../../auth/auth.store';
+import { useAuthStoreContext } from '../../../auth';
 import { images } from '../../images';
 import { StyledHeader, HeaderContainer, Logo, User, UserPic } from './Header.styles';
 

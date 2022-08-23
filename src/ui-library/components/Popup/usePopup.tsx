@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const usePopup = () => {
+export const usePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
@@ -12,5 +12,3 @@ const usePopup = () => {
 
   return { handlePopup, isOpen, popupMessage };
 };
-
-export default usePopup;

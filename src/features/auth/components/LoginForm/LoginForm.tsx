@@ -1,15 +1,14 @@
 import { Formik, ErrorMessage } from 'formik';
 import { FC } from 'react';
 import Button from '../../../../ui-library/components/Button';
-import Popup from '../../../../ui-library/components/Popup';
-import usePopup from '../../../../ui-library/components/Popup/usePopup';
+import Popup, { usePopup } from '../../../../ui-library/components/Popup';
 import { initialValues } from '../../auth.constants';
 import { UserRequestType } from '../../auth.service';
 import { useAuthStoreContext } from '../../auth.store';
 import { validateHandler } from '../../auth.validation';
 import { StyledForm, StyledField, TextError, FieldWrapper } from './LoginForm.styles';
 
-const LoginForm: FC = () => {
+export const LoginForm: FC = () => {
   const { login } = useAuthStoreContext();
   const { handlePopup, isOpen, popupMessage } = usePopup();
 
@@ -52,5 +51,3 @@ const LoginForm: FC = () => {
     </>
   );
 };
-
-export default LoginForm;
