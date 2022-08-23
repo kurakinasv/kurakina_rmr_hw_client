@@ -1,45 +1,49 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { createContext, FC, PropsWithChildren, useContext } from 'react';
-import { RequestService } from '../../infrastructure/request/request.service';
-import { EndpointsEnum, User } from './auth.entity';
-import { KittyResponseType, parseServerData, UserRequestType } from './auth.service';
+import { Endpoints, RequestService } from '../../infrastructure/request';
+import UserService from '../user/user.service';
+import { LocalStorage, UserRequestType } from './auth.service';
 
 const requestService = new RequestService();
 
-class AuthStore {
-  readonly storageName = 'isLogged';
+class AuthStore extends UserService {
+  storage: LocalStorage;
 
   isAuthenticated = false;
   isLoading = false;
-  user = {} as User;
-  userRequestData = {} as UserRequestType;
-  kittySrc: KittyResponseType['src'] = '';
 
   constructor() {
-    makeAutoObservable(this);
+    super();
+
+    makeObservable<AuthStore>(this, {
+      isAuthenticated: observable,
+      isLoading: observable,
+
+      setIsLoading: action,
+      setIsAuthenticated: action,
+
+      initUser: action,
+      login: action,
+      logout: action,
+      redirect: action,
+    });
+
+    this.storage = new LocalStorage('isLogged');
   }
 
-  isLogged = () => {
-    const storageData = localStorage.getItem(this.storageName);
-    const data = JSON.parse(String(storageData));
-
-    if (data && data.isLogged) return true;
-    else return false;
-  };
-
   initUser = (): void => {
-    if (this.isLogged()) this._redirectToKitty();
+    if (this.storage.checkItem()) this.redirect();
   };
 
   login = async ({ email, password, phone }: UserRequestType): Promise<void> => {
-    try {
-      this.userRequestData = { email, password, phone };
+    const reqData = { email, password, phone };
 
-      const response = await requestService.post({ body: this.userRequestData, relativeURL: EndpointsEnum.login });
+    try {
+      const response = await requestService.post({ body: reqData, relativeURL: Endpoints.login });
 
       if (response) {
-        localStorage.setItem(this.storageName, JSON.stringify({ isLogged: true }));
-        this._redirectToKitty();
+        this.storage.setItem(true);
+        this.redirect();
       } else throw new Error(response);
     } catch (e: unknown) {
       if (e instanceof Error) throw new Error(e.message);
@@ -50,10 +54,10 @@ class AuthStore {
     this.setIsLoading(true);
 
     try {
-      const response = await requestService.post({ relativeURL: EndpointsEnum.logout });
+      const response = await requestService.post({ relativeURL: Endpoints.logout });
 
       if (response) {
-        localStorage.removeItem(this.storageName);
+        this.storage.removeItem();
         this.setIsAuthenticated(false);
         this.setUserName(null);
       } else throw new Error(response);
@@ -61,24 +65,6 @@ class AuthStore {
       if (e instanceof Error) throw new Error(e.message);
     } finally {
       this.setIsLoading(false);
-    }
-  };
-
-  getKitty = async (): Promise<void> => {
-    try {
-      const data = await requestService.get({ relativeURL: EndpointsEnum.kitty });
-      if (data) this.setKittySrc(data);
-    } catch (e: unknown) {
-      if (e instanceof Error) throw new Error(`Kitty request error ${e.message}`);
-    }
-  };
-
-  getUserProfile = async (): Promise<void> => {
-    try {
-      const data = await requestService.get({ relativeURL: EndpointsEnum.profile });
-      if (data) this.setUserName(data);
-    } catch (e: unknown) {
-      if (e instanceof Error) throw new Error(`Profile request error ${e.message}`);
     }
   };
 
@@ -90,21 +76,13 @@ class AuthStore {
     this.isLoading = value;
   };
 
-  setUserName = (data: Response | null) => {
-    this.user.name = data ? parseServerData(data).name : '';
-  };
-
-  setKittySrc = (data: Response | null) => {
-    this.kittySrc = data ? parseServerData(data).src : '';
-  };
-
-  _redirectToKitty = async (): Promise<void> => {
+  redirect = async (): Promise<void> => {
     this.setIsLoading(true);
     this.setIsAuthenticated(true);
 
-    await this.getKitty()
-      .then(() => this.getUserProfile())
-      .then(() => this.setIsLoading(false));
+    await this.redirectToKitty();
+
+    this.setIsLoading(false);
   };
 }
 
