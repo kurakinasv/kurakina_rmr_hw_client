@@ -1,0 +1,45 @@
+name: lint-and-image-build
+
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  lint-files:
+    outputs:
+      new_sha: ${{ steps.sha.outputs.SHA }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '17'
+
+      - run: yarn install
+
+      - name: Fixing lint errors
+        run: yarn lint:fix
+
+      - name: Pushing auto commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: '[auto]: applying lint:fix changes'
+
+      - name: Getting last commit SHA
+        id: sha
+        run: |
+          sha_new=$(git rev-parse HEAD)
+          echo $sha_new
+          echo "::set-output name=SHA::$sha_new"
+
+  build-image:
+    needs: lint-files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with: 
+          ref: ${{ needs.lint-files.outputs.new_sha }}
+          fetch-depth: 0
+       
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag rmr_hw_client:$(date +%s)
