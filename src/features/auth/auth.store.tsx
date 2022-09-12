@@ -2,14 +2,11 @@ import { action, makeObservable, observable } from 'mobx';
 import { createContext, FC, PropsWithChildren, useContext } from 'react';
 import { Endpoints, RequestService } from '../../infrastructure/request';
 import UserService from '../user/user.service';
-import { LocalStorage, UserRequestType } from './auth.service';
+import { UserRequestType } from './auth.service';
 
 const requestService = new RequestService();
 
 class AuthStore extends UserService {
-  storage: LocalStorage;
-
-  isAuthenticated = false;
   isLoading = false;
 
   constructor() {
@@ -27,8 +24,6 @@ class AuthStore extends UserService {
       logout: action,
       redirect: action,
     });
-
-    this.storage = new LocalStorage('isLogged');
   }
 
   initUser = (): void => {
@@ -66,10 +61,6 @@ class AuthStore extends UserService {
     } finally {
       this.setIsLoading(false);
     }
-  };
-
-  setIsAuthenticated = (value: boolean) => {
-    this.isAuthenticated = value;
   };
 
   setIsLoading = (value: boolean) => {
