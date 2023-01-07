@@ -8,7 +8,7 @@ const LoginScreen: FC = () => {
   const { handlePopup, isOpen, popupMessage } = usePopup();
 
   useEffect(() => {
-    handlePopup('Чтобы войти, загляни в README.md');
+    handlePopup('Чтобы войти, впиши дефолтные значения (больше в README.md)');
   }, []);
 
   return (

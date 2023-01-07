@@ -1,5 +1,5 @@
 export const initialValues = {
-  email: '',
-  password: '',
-  phone: '',
+  email: 'masha@gmail.com',
+  password: 'lolkekkkk',
+  phone: '+79853453322',
 };

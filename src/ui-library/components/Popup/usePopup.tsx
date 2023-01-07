@@ -7,7 +7,7 @@ export const usePopup = () => {
   const handlePopup = (message: string) => {
     setPopupMessage(message);
     setIsOpen(true);
-    setTimeout(() => setIsOpen(false), 2500);
+    setTimeout(() => setIsOpen(false), 4000);
   };
 
   return { handlePopup, isOpen, popupMessage };
