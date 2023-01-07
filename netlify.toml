@@ -3,6 +3,6 @@
     publish = "build"
 
 [[redirects]]
-    from = "/api/v1/*"
-    to = "https://get-cat-back.onrender.com/:splat"
+    from = "/*"
+    to = "/index.html"
     status = 200
